@@ -1,5 +1,6 @@
 import streamlit as st
 from lib.models.mensagem import Mensagem
+from lib.utils.remover_acento import removerAcentos
 
 def inicializarValoresPadroes():
     if "historico" not in st.session_state:
@@ -38,7 +39,10 @@ def proximaPergunta():
 
 
 def corrigirResposta():
-    if st.session_state.resposta_atual.lower().strip() in st.session_state.pergunta_atual['resposta_correta'].lower().strip():
+    if removerAcentos(
+        st.session_state.resposta_atual.lower()
+        ).strip() in removerAcentos(
+            st.session_state.pergunta_atual['resposta_correta'].lower()).strip():
         #Incrementar pontuação
         st.session_state.score += 1
         

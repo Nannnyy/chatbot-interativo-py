@@ -8,7 +8,7 @@ O projeto é composto pelos seguintes arquivos:
 
 - `app.py`: O script principal que executa a aplicação.
 - `lib/`: Pasta contendo funções auxiliares, como o upload do arquivo JSON e conversão para lista.
-- ´lib/funcoes_bot`: Lista de todas as funções que o bot pode realizar
+- `lib/funcoes_bot/`: Lista de todas as funções que o bot pode realizar.
 - `lib/static/style.css`: Arquivo CSS para personalizar o estilo da aplicação.
 - `README.md`: Este arquivo, contendo informações sobre como rodar o projeto.
 

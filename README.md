@@ -14,48 +14,7 @@ O projeto é composto pelos seguintes arquivos:
 
 Para o projeto funcionar, deve se utilizar um arquivo JSON com a seguinte estrutura:
 
-{
-  "perguntas": [
-    {
-      "id": 1,
-      "texto": "Qual é a capital da França?",
-      "tipo": "aberta",
-      "resposta_correta": "Paris"
-    },
-    {
-      "id": 2,
-      "texto": "Quem pintou a 'Mona Lisa'?",
-      "tipo": "aberta",
-      "resposta_correta": "Leonardo Da Vinci"
-    },
-    {
-      "id": 3,
-      "texto": "Em que ano o homem pisou na Lua pela primeira vez?",
-      "tipo": "aberta",
-      "resposta_correta": "1969"
-    },
-    {
-      "id": 4,
-      "texto": "Qual é o resultado de 3 + 2?",
-      "tipo": "aberta",
-      "resposta_correta": "5"
-    },
-    {
-      "id": 5,
-      "texto": "Java é uma linguagem de programação.",
-      "tipo": "verdadeiro_falso",
-      "resposta_correta": "verdadeiro"
-    },
-    {
-      "id": 6,
-      "texto": "Qual é a maior cidade do Brasil?",
-      "tipo": "multipla_escolha",
-      "opcoes": ["São Paulo", "Rio de Janeiro", "Belo Horizonte", "Brasília"],
-      "resposta_correta": "São Paulo"
-    }
-  ]
-}
-
+<pre> ```json { "perguntas": [ { "id": 1, "texto": "Qual é a capital da França?", "tipo": "aberta", "resposta_correta": "Paris" }, { "id": 2, "texto": "Quem pintou a 'Mona Lisa'?", "tipo": "aberta", "resposta_correta": "Leonardo Da Vinci" }, { "id": 3, "texto": "Em que ano o homem pisou na Lua pela primeira vez?", "tipo": "aberta", "resposta_correta": "1969" }, { "id": 4, "texto": "Qual é o resultado de 3 + 2?", "tipo": "aberta", "resposta_correta": "5" }, { "id": 5, "texto": "Java é uma linguagem de programação.", "tipo": "verdadeiro_falso", "resposta_correta": "verdadeiro" }, { "id": 6, "texto": "Qual é a maior cidade do Brasil?", "tipo": "multipla_escolha", "opcoes": ["São Paulo", "Rio de Janeiro", "Belo Horizonte", "Brasília"], "resposta_correta": "São Paulo" } ] } ``` </pre>
 
 ## Requisitos
 

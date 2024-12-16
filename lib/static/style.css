@@ -1,8 +1,8 @@
 
 .instrucoes {
-    font-family: 'Courier New', Courier, monospace; /* Fonte de máquina de escrever */
-    font-size: 14px; /* Tamanho da fonte */
-    color: #f4d03f; /* Cor do texto */
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: #f4d03f;
 }
 
 .radio-container {

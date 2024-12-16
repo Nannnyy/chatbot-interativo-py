@@ -27,13 +27,18 @@ def inicializarValoresPadroes():
         
 def restart():
     if st.button('Recomeçar'):
-        st.session_state.clear()  # Limpar todo o session_state
-        st.rerun()   # Recarregar a aplicação
+        #Limpar todo o session_state
+        st.session_state.clear()
+        #Recarregar a aplicação
+        st.rerun() 
 
 
 def mostrarPontuacao():
-    st.metric('Sua pontuação final foi:', f"{st.session_state.score}/{len(st.session_state.perguntas)}")
+    # Exibe o subtítulo de forma separada
+    st.subheader("Sua Pontuação final foi:")
 
+    # Exibe a métrica com a pontuação
+    st.metric(label="Pontuação", value=f"{st.session_state.score}/{len(st.session_state.perguntas)}")
 
 def proximaPergunta():
     if st.session_state.indice < len(st.session_state.perguntas)-1:
@@ -42,28 +47,11 @@ def proximaPergunta():
         st.session_state.terminar = True
 
 
-# def corrigirResposta():
-#     if removerAcentos(
-#         st.session_state.resposta_atual.lower()
-#         ).strip() in removerAcentos(
-#             st.session_state.pergunta_atual['resposta_correta'].lower()).strip():
-#         #Incrementar pontuação
-#         st.session_state.score += 1
-        
-#         # Feedback caso a resposta esteja correta
-#         st.session_state.historico.append(
-#             Mensagem('feedback', f'🎉 Parabéns, você acertou, pontuação atual: {st.session_state.score}')
-#         ) 
-#     else:
-#         #Feedback caso a resposta esteja errada
-#         st.session_state.historico.append(
-#         Mensagem('feedback', '❌ Poxa, você errou')
-#         )
-
 def AtualizarResultadosQuiz():
     # Verifica se a resposta está correta
     resposta_correta = removerAcentos(st.session_state.resposta_atual.lower()).strip() == removerAcentos(st.session_state.pergunta_atual['resposta_correta'].lower()).strip()
     
+    #Atribuir os valores da pergunta e resposta atuais para o resultado do quiz
     st.session_state.quiz_resultado.append({
         'id': st.session_state.pergunta_atual['id'],
         'texto': st.session_state.pergunta_atual['texto'],
@@ -71,15 +59,15 @@ def AtualizarResultadosQuiz():
         'pontos_adquiridos': 1 if resposta_correta else 0
     })
     
-    # Incrementa a pontuação apenas aqui
+    # Incrementa a pontuação
     if resposta_correta:
         st.session_state.score += 1
         st.session_state.historico.append(
-            Mensagem('feedback', f'🎉 Parabéns, você acertou, pontuação atual: {st.session_state.score}')
+            Mensagem('feedback', f'🎉 Parabéns, você acertou', "success")
         )
     else:
         st.session_state.historico.append(
-            Mensagem('feedback', '❌ Poxa, você errou')
+            Mensagem('feedback', f'❌ Poxa, você errou. Na verdade, a resposta é: {st.session_state.pergunta_atual['resposta_correta']}', "error")
         )
 
 def gerarArquivoJson():
@@ -100,14 +88,11 @@ def enviarResposta():
     
     #Adicionar resposta ao histórico
     st.session_state.historico.append(
-        Mensagem('human', st.session_state.resposta_atual)
+        Mensagem('human', f"Resposta: {st.session_state.resposta_atual}", "")
     )
     
-    #Adicionar ao arquivo json
+    #Atualizar os resultados
     AtualizarResultadosQuiz()
-    
-    # Corrigir a resposta
-   
     
     #Incrementar para póxima pergunta
     proximaPergunta()

@@ -5,7 +5,7 @@ class Mensagem:
         self.mensagem = mensagem
     
     def __repr__(self):
-        return f"{self.origem}: {self.mensagem}"
+        return f"{self.mensagem}"
     
     def getOrigem(self):
         return self.origem

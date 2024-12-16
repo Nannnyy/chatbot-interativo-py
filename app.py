@@ -29,10 +29,9 @@ def onSubmitCallback():
     st.session_state.indice += 1
     if st.session_state.indice < len(st.session_state.perguntas):
         st.session_state.pergunta_atual = st.session_state.perguntas[st.session_state.indice]
-        texto = st.session_state.pergunta_atual['texto']
         
         st.session_state.historico.append(
-            Mensagem("ai", st.session_state.pergunta_atual['texto'])
+            Mensagem("ai", f"{st.session_state.pergunta_atual['id']}. {st.session_state.pergunta_atual['texto']}")
         )
 
 # Iniciar os valores padrões do session_state
@@ -57,7 +56,7 @@ if json_dict:
         
         #Adicionar a primeira pergunta ao histórico
         st.session_state.historico.append(
-            Mensagem("ai", st.session_state.pergunta_atual['texto'])
+            Mensagem( "ai", f"{st.session_state.pergunta_atual['id']}. {st.session_state.pergunta_atual['texto']}")
         )
 
 
@@ -72,9 +71,12 @@ if json_dict:
         #Mostrar as perguntas e respostas
         with chat_placeholder:
             for chat in st.session_state.historico:
-                with st.chat_message('assistant'):
-                    st.markdown(f"{chat.origem}: {chat.mensagem}")
-                    
+                if chat.getOrigem() == "ai":
+                    with st.chat_message('assistant'):
+                        st.markdown(chat)
+                else:
+                    with st.chat_message('human'):
+                        st.markdown(chat)
     #Acabar o jogo
     else:
         st.markdown("Nossa, o jogo ja acabou")

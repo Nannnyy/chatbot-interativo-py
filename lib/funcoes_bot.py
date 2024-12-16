@@ -1,58 +1,77 @@
 import streamlit as st
 from lib.models.mensagem import Mensagem
 
-def iniciliazarValoresPadroes():
+def inicializarValoresPadroes():
     if "historico" not in st.session_state:
         st.session_state.historico = []
     if "indice" not in st.session_state:
         st.session_state.indice = 0
+    if "score" not in st.session_state:
+        st.session_state.score = 0
     if "pergunta_atual" not in st.session_state:
         st.session_state.pergunta_atual = None
-    if "feedback" not in st.session_state:
-        st.session_state.feedback = None
+    if "resposta_atual" not in st.session_state:
+        st.session_state.resposta_atual = None
     if "arquivo_uploader" not in st.session_state:
         st.session_state.arquivo_uploader = True
     if "json_dict" not in st.session_state:
         st.session_state.json_dict = None
+    if "terminar" not in st.session_state:
+        st.session_state.terminar = False
         
-def onSubmitCallback():
-    
+        
+def restart():
+    if st.button('Recomeçar'):
+        st.session_state.clear()  # Limpar todo o session_state
+        st.rerun()   # Recarregar a aplicação
+
+
+def mostrarPontuacao():
+    st.metric('Sua pontuação final foi:', f"{st.session_state.score}/{len(st.session_state.perguntas)}")
+
+
+def proximaPergunta():
+    if st.session_state.indice < len(st.session_state.perguntas)-1:
+        st.session_state.indice += 1
+    else:
+        st.session_state.terminar = True
+
+
+def corrigirResposta():
+    if st.session_state.resposta_atual.lower().strip() in st.session_state.pergunta_atual['resposta_correta'].lower().strip():
+        #Incrementar pontuação
+        st.session_state.score += 1
+        
+        # Feedback caso a resposta esteja correta
+        st.session_state.historico.append(
+            Mensagem('feedback', f'🎉 Parabéns, você acertou, pontuação atual: {st.session_state.score}')
+        ) 
+    else:
+        #Feedback caso a resposta esteja errada
+        st.session_state.historico.append(
+        Mensagem('feedback', '❌ Poxa, você errou')
+        )
+       
+        
+def enviarResposta():
     #Adicionar as perguntas e as respostas ao histórico
     
     #Resposta do usuário
     usuario_resposta = st.session_state.usuario_resposta
+    st.session_state.resposta_atual = usuario_resposta
+    
+    #Adicionar resposta ao histórico
     st.session_state.historico.append(
-        Mensagem('human', usuario_resposta)
+        Mensagem('human', st.session_state.resposta_atual)
     )
     
+    # Corrigir a resposta
+    corrigirResposta()
     
-    #Verificar a resposta e enviar feedback
-    if usuario_resposta.lower().strip() in st.session_state.pergunta_atual['resposta_correta'].lower().atrip():
-        st.session_state.historico.append(
-            Mensagem('feedback', 'Parabéns, você acertou')
-        )
-    else:
-        st.session_state.historico.append(
-        Mensagem('feedback', 'Poxa, você errou')
-        )
-    
-    
-    #Próxima pergunta
-    
-    st.session_state.indice += 1
-    if st.session_state.indice < len(st.session_state.perguntas):
-        st.session_state.pergunta_atual = st.session_state.perguntas[st.session_state.indice]
-        
-        st.session_state.historico.append(
-            Mensagem("ai", f"{st.session_state.pergunta_atual['id']}. {st.session_state.pergunta_atual['texto']}")
-        )
+    #Incrementar para póxima pergunta
+    proximaPergunta()
 
 
-def proximaPergunta():
-    st.session_state.indice += 1
-    if st.session_state.indice < len(st.session_state.perguntas):
-        st.session_state.pergunta_atual = st.session_state.perguntas[st.session_state.indice]
-        
-        st.session_state.historico.append(
-            Mensagem("ai", f"{st.session_state.pergunta_atual['id']}. {st.session_state.pergunta_atual['texto']}")
-        )
+
+
+

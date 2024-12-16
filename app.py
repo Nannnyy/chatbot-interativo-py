@@ -88,6 +88,15 @@ def app():
         else:
             st.subheader("🏆 jogo ja foi finalizado!")
             mostrarPontuacao()
+            
+            json_result = gerarArquivoJson()
+            st.download_button(
+                label="Baixar resultados do quiz",
+                data=json_result,
+                file_name="quiz_resultados.json",
+                mime="application/json"
+            )
+            
             restart()
 
 
